@@ -11,7 +11,7 @@ type Server struct {
 }
 
 func (s *Server) Run(port string, handler http.Handler) error {
-	s.httpServer = &http.Server{ // ункапцулиция
+	s.httpServer = &http.Server{ // инкапцулиция
 		Addr:           ":" + port,
 		Handler:        handler,
 		MaxHeaderBytes: 1 << 20, // 1MB
