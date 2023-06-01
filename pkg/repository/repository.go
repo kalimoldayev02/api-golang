@@ -1,8 +1,12 @@
 package repository
 
-import "github.com/jmoiron/sqlx"
+import (
+	"github.com/jmoiron/sqlx"
+	"github.com/kalimoldayev02/api-golang/models"
+)
 
 type Auth interface {
+	CreateUser(user models.User) (int, error)
 }
 
 type TodoList interface {
@@ -18,5 +22,4 @@ type Repository struct {
 }
 
 func NewRespository(db *sqlx.DB) *Repository {
-	return &Repository{}
 }
