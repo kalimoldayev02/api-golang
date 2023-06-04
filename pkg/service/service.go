@@ -7,6 +7,7 @@ import (
 
 type Auth interface {
 	CreateUser(user models.User) (int, error)
+	GenerateToken(email, password string) (string, error)
 }
 
 type TodoList interface {
@@ -22,5 +23,7 @@ type Service struct {
 }
 
 func NewService(repo *repository.Repository) *Service { // конструктор
-	return &Service{}
+	return &Service{
+		Auth: NewAuthService(repo.Auth),
+	}
 }

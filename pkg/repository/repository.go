@@ -7,6 +7,7 @@ import (
 
 type Auth interface {
 	CreateUser(user models.User) (int, error)
+	GetUserIdByCredentials(email, password string) (models.User, error)
 }
 
 type TodoList interface {
@@ -22,4 +23,7 @@ type Repository struct {
 }
 
 func NewRespository(db *sqlx.DB) *Repository {
+	return &Repository{
+		Auth: NewAutRespository(db),
+	}
 }
