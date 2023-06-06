@@ -11,10 +11,10 @@ type Auth interface {
 }
 
 type TodoList interface {
+	Create(userId int, list models.TodoList) (int, error)
 }
 
-type TodoItem interface {
-}
+type TodoItem interface{}
 
 type Repository struct {
 	Auth
@@ -24,6 +24,7 @@ type Repository struct {
 
 func NewRespository(db *sqlx.DB) *Repository {
 	return &Repository{
-		Auth: NewAutRespository(db),
+		Auth:     NewAuthRespository(db),
+		TodoList: NewTodoListRepository(db),
 	}
 }

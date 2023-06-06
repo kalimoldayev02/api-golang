@@ -12,10 +12,10 @@ type Auth interface {
 }
 
 type TodoList interface {
+	Create(userId int, list models.TodoList) (int, error)
 }
 
-type TodoItem interface {
-}
+type TodoItem interface{}
 
 type Service struct {
 	Auth // хранилище для сервисов
@@ -25,6 +25,7 @@ type Service struct {
 
 func NewService(repo *repository.Repository) *Service { // конструктор
 	return &Service{
-		Auth: NewAuthService(repo.Auth),
+		Auth:     NewAuthService(repo.Auth),
+		TodoList: NewTodoListService(repo.TodoList),
 	}
 }
