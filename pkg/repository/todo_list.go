@@ -33,7 +33,7 @@ func (r *TodoListRepository) Create(userId int, list models.TodoList) (int, erro
 	}
 
 	createUsersListQuery := fmt.Sprintf(
-		"insert into %s (user_is, list_id) values ($1, $2)",
+		"insert into %s (user_id, list_id) values ($1, $2)",
 		usersListsTable,
 	)
 	_, err = tx.Exec(createUsersListQuery, userId, id)

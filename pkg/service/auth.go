@@ -11,9 +11,11 @@ import (
 	"github.com/kalimoldayev02/api-golang/pkg/repository"
 )
 
-const salt = "sAD54$R4T2!s_AS"
-const tokenTTL = 12 * time.Hour
-const signKey = "q$t4sc@a3av86F$tp(fn"
+const (
+	salt     = "sAD54$R4T2!s_AS"
+	tokenTTL = 12 * time.Hour
+	signKey  = "q$t4sc@a3av86F$tp(fn"
+)
 
 type AuthService struct {
 	repo repository.Auth
@@ -50,13 +52,16 @@ func (s *AuthService) GenerateToken(email, password string) (string, error) {
 }
 
 func (a *AuthService) ParseToken(accessToken string) (int, error) {
-	token, err := jwt.ParseWithClaims(accessToken, &tokenClaims{}, func(token *jwt.Token) (interface{}, error) {
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, errors.New("invalid signing method")
-		}
-		return []byte(signKey), nil
-	})
-
+	token, err := jwt.ParseWithClaims(
+		accessToken,
+		&tokenClaims{},
+		func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+				return nil, errors.New("invalid signing method")
+			}
+			return []byte(signKey), nil
+		},
+	)
 	if err != nil {
 		return 0, err
 	}
