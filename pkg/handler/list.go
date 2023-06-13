@@ -29,3 +29,24 @@ func (h *Handler) createList(c *gin.Context) {
 		"id": id,
 	})
 }
+
+func (h *Handler) getTodoLists(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	lists, err := h.sevices.TodoList.GetTodoLists(userId)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, getTodoListsResponse{
+		Data: lists,
+	})
+}
+
+type getTodoListsResponse struct {
+	Data []models.TodoList `json:"data"`
+}
