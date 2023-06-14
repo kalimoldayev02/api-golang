@@ -52,3 +52,11 @@ func (r *TodoListRepository) GetTodoLists(userId int) ([]models.TodoList, error)
 
 	return todoLists, err
 }
+
+func (r *TodoListRepository) GetTodoListById(userId int, id int) (models.TodoList, error) {
+	var todoList models.TodoList
+	query := fmt.Sprintf("select tl.id, tl.title, tl.description from %s tl inner join %s ul on tl.id = ul.list_id where ul.user_id = $1 and ul.list_id = $2", todoListsTable, usersListsTable)
+	err := r.db.Get(&todoList, query, userId, id)
+
+	return todoList, err
+}

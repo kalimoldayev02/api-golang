@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/kalimoldayev02/api-golang/models"
@@ -45,6 +46,27 @@ func (h *Handler) getTodoLists(c *gin.Context) {
 	c.JSON(http.StatusOK, getTodoListsResponse{
 		Data: lists,
 	})
+}
+
+func (h *Handler) getTodoList(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	list, err := h.sevices.TodoList.GetTodoListById(userId, id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, list)
 }
 
 type getTodoListsResponse struct {
