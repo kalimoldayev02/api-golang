@@ -60,3 +60,10 @@ func (r *TodoListRepository) GetTodoListById(userId int, id int) (models.TodoLis
 
 	return todoList, err
 }
+
+func (r *TodoListRepository) DeleteTodoList(userId int, id int) error {
+	query := fmt.Sprintf("delete from %s tl using %s ul where tl.id = ul.list_id and ul.user_id = $1 and ul.list_id = $2", todoListsTable, usersListsTable)
+	_, err := r.db.Exec(query, userId, id)
+
+	return err
+}

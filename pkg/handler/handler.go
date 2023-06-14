@@ -30,7 +30,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			lists.GET("/", h.getTodoLists)
 			lists.GET("/:id", h.getTodoList)
 			// lists.PUT("/:id")
-			// lists.DELETE("/:id")
+			lists.DELETE("/:id", h.deleteTodoList)
 
 			// items := api.Group("/:id/items")
 			// {
